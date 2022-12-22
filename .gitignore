@@ -1,0 +1,5 @@
+.idea
+.mypy_cache
+htmlcov/
+__pycache__/
+venv
