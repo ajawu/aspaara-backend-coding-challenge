@@ -4,3 +4,4 @@ htmlcov/
 __pycache__/
 venv
 data.db
+.coverage

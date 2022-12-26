@@ -44,11 +44,11 @@ class PlanBase(BaseModel):
 
 
 class PlanCreate(PlanBase):
-    id: int
+    id: Optional[int]
 
 
 class PlanUpdate(PlanBase):
-    original_id: Optional[int] = None
+    original_id: Optional[str] = None
     operating_unit: Optional[str] = None
     office_postal_code: Optional[str] = None
     total_hours: Optional[float] = None

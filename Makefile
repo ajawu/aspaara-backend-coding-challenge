@@ -3,7 +3,7 @@ check:
 				pre-commit run --all-files
 
 test:
-				pytest --cov=app --cov-report=term-missing app/tests
+				pytest app/tests
 
 mypy:
 				mypy app/*
