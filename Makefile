@@ -7,3 +7,9 @@ test:
 
 mypy:
 				mypy app/*
+
+remove-db:
+				rm data.db
+
+init:  remove-db
+				PYTHONPATH=. alembic upgrade head && PYTHONPATH=. python app/initial_data.py
