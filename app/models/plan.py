@@ -1,11 +1,11 @@
-from sqlalchemy import Boolean, Column, DateTime, Float, Integer, String
+from sqlalchemy import JSON, Boolean, Column, DateTime, Float, Integer, String
 
 from app.db.base_class import Base
 
 
 class Plan(Base):
     id = Column(Integer, primary_key=True, index=True)
-    original_id = Column(Integer, unique=True, nullable=False, index=True)
+    original_id = Column(String, unique=True, nullable=False, index=True)
     talent_id = Column(String)
     talent_name = Column(String)
     talent_grade = Column(String)
@@ -21,6 +21,6 @@ class Plan(Base):
     client_name = Column(String)
     client_id = Column(String, nullable=False)
     industry = Column(String)
-    required_skills = Column(String)
-    optional_skills = Column(String)
+    required_skills = Column(JSON)
+    optional_skills = Column(JSON)
     is_unassigned = Column(Boolean, default=True)

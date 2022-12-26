@@ -1,8 +1,8 @@
 """create plan table
 
-Revision ID: 794b7ba9ab29
+Revision ID: d7abc7c3489b
 Revises:
-Create Date: 2022-12-25 20:27:59.084748
+Create Date: 2022-12-26 01:41:12.183055
 
 """
 import sqlalchemy as sa
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 from alembic import op
 
 # revision identifiers, used by Alembic.
-revision = "794b7ba9ab29"
+revision = "d7abc7c3489b"
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -21,7 +21,7 @@ def upgrade():
     op.create_table(
         "plan",
         sa.Column("id", sa.Integer(), nullable=False),
-        sa.Column("original_id", sa.Integer(), nullable=False),
+        sa.Column("original_id", sa.String(), nullable=False),
         sa.Column("talent_id", sa.String(), nullable=True),
         sa.Column("talent_name", sa.String(), nullable=True),
         sa.Column("talent_grade", sa.String(), nullable=True),
@@ -37,8 +37,8 @@ def upgrade():
         sa.Column("client_name", sa.String(), nullable=True),
         sa.Column("client_id", sa.String(), nullable=False),
         sa.Column("industry", sa.String(), nullable=True),
-        sa.Column("required_skills", sa.String(), nullable=True),
-        sa.Column("optional_skills", sa.String(), nullable=True),
+        sa.Column("required_skills", sa.JSON(), nullable=True),
+        sa.Column("optional_skills", sa.JSON(), nullable=True),
         sa.Column("is_unassigned", sa.Boolean(), nullable=True),
         sa.PrimaryKeyConstraint("id"),
     )

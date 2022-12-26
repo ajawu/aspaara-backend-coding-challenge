@@ -1,11 +1,14 @@
 from datetime import datetime
-from typing import Optional
+from typing import Dict, List, Optional
 
-from pydantic import BaseModel, Extra
+from pydantic import BaseModel, Extra, validator
+
+from app.utils import camelize
 
 
-class PlanBase(BaseModel, extra=Extra.forbid):
-    original_id: int
+class PlanBase(BaseModel):
+    id: int
+    original_id: str
     talent_id: Optional[str] = None
     talent_name: Optional[str] = None
     talent_grade: Optional[str] = None
@@ -21,9 +24,24 @@ class PlanBase(BaseModel, extra=Extra.forbid):
     client_name: Optional[str] = None
     client_id: str
     industry: Optional[str] = None
-    required_skills: Optional[str] = None
-    optional_skills: Optional[str] = None
+    required_skills: Optional[List[Dict[str, str]]] = None
+    optional_skills: Optional[List[Dict[str, str]]] = None
     is_unassigned: Optional[bool] = False
+
+    @validator("start_date", "end_date", pre=True)
+    def parse_date_time(cls, v):
+        if isinstance(v, str):
+            try:
+                return datetime.strptime(v, "%d/%m/%Y %I:%M %p")
+            except ValueError:
+                return datetime.strptime(v, "%m/%d/%Y %I:%M %p")
+        return v
+
+    class Config:
+        orm_mode = True
+        alias_generator = camelize
+        allow_population_by_field_name = True
+        extra = Extra.forbid
 
 
 class PlanCreate(PlanBase):
@@ -31,6 +49,7 @@ class PlanCreate(PlanBase):
 
 
 class PlanUpdate(PlanBase):
+    id: Optional[int] = None
     original_id: Optional[int] = None
     operating_unit: Optional[str] = None
     office_postal_code: Optional[str] = None
@@ -40,8 +59,9 @@ class PlanUpdate(PlanBase):
     client_id: Optional[str] = None
 
 
-class PlanInDBBase(PlanBase):
-    id: int
+class PlanInDB(PlanBase):
+    pass
 
-    class Config:
-        orm_mode = True
+
+if __name__ == "__main__":
+    print(camelize("office_postal_code"))
