@@ -23,8 +23,8 @@ class CRUDBase(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
         """
         self.model = model
 
-    def get(self, db: Session, id: Any) -> Optional[ModelType]:
-        return db.query(self.model).filter(self.model.id == id).first()
+    def get(self, db: Session, obj_id: Any) -> Optional[ModelType]:
+        return db.query(self.model).filter(self.model.id == obj_id).first()
 
     def get_multi(
         self, db: Session, *, skip: int = 0, limit: int = 100
@@ -32,7 +32,7 @@ class CRUDBase(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
         return db.query(self.model).offset(skip).limit(limit).all()
 
     def create(self, db: Session, *, obj_in: CreateSchemaType) -> ModelType:
-        obj_in_data = jsonable_encoder(obj_in)
+        obj_in_data = obj_in.dict()
         db_obj = self.model(**obj_in_data)
         db.add(db_obj)
         db.commit()
@@ -59,8 +59,11 @@ class CRUDBase(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
         db.refresh(db_obj)
         return db_obj
 
-    def remove(self, db: Session, *, id: int) -> ModelType:
-        obj = db.query(self.model).get(id)
-        db.delete(obj)
-        db.commit()
-        return obj
+    def remove(self, db: Session, *, obj_id: int) -> Optional[ModelType]:
+        obj = db.query(self.model).get(obj_id)
+        if obj:
+            db.delete(obj)
+            db.commit()
+            return obj
+        else:
+            return None

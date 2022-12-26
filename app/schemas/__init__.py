@@ -1,1 +1,1 @@
-from .plan import PlanCreate, PlanUpdate  # noqa
+from .plan import Plan, PlanCreate, PlanUpdate  # noqa

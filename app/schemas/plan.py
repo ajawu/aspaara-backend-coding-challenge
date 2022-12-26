@@ -7,7 +7,6 @@ from app.utils import camelize
 
 
 class PlanBase(BaseModel):
-    id: int
     original_id: str
     talent_id: Optional[str] = None
     talent_name: Optional[str] = None
@@ -45,11 +44,10 @@ class PlanBase(BaseModel):
 
 
 class PlanCreate(PlanBase):
-    pass
+    id: int
 
 
 class PlanUpdate(PlanBase):
-    id: Optional[int] = None
     original_id: Optional[int] = None
     operating_unit: Optional[str] = None
     office_postal_code: Optional[str] = None
@@ -59,9 +57,5 @@ class PlanUpdate(PlanBase):
     client_id: Optional[str] = None
 
 
-class PlanInDB(PlanBase):
-    pass
-
-
-if __name__ == "__main__":
-    print(camelize("office_postal_code"))
+class Plan(PlanBase):
+    id: int
