@@ -1,6 +1,6 @@
-from typing import Any, List
+from typing import Any, List, Union
 
-from fastapi import APIRouter, Depends, HTTPException, Response, status
+from fastapi import APIRouter, Depends, HTTPException, Query, Response, status
 from sqlalchemy.orm import Session
 
 from app import crud, schemas
@@ -20,10 +20,24 @@ def create_plan(
 @router.get("/", response_model=List[schemas.Plan])
 def get_plans(
     db: Session = Depends(deps.get_db),
-    skip: int = 0,
+    page: int = 0,
     limit: int = 100,
+    order_columns: Union[List[str], None] = Query(default=None),
 ) -> Any:
-    plans = crud.plan.get_multi(db, skip=skip, limit=limit)
+    if order_columns:
+        plan_columns = schemas.PlanUpdate().dict()
+        for column in order_columns:
+            if column not in plan_columns and column != "id":
+                raise HTTPException(
+                    status_code=status.HTTP_400_BAD_REQUEST,
+                    detail=f"Unknown column - {column}",
+                )
+    else:
+        order_columns = ["id"]
+
+    plans = crud.plan.get_multi_with_sort(
+        db, skip=page, limit=limit, order_by=order_columns
+    )
     return plans
 
 
