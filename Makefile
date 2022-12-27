@@ -13,3 +13,6 @@ remove-db:
 
 init:  remove-db
 				PYTHONPATH=. alembic upgrade head && PYTHONPATH=. python app/initial_data.py
+
+start:
+				PYTHONPATH=./app python -m uvicorn main:app --reload
