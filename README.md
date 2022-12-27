@@ -4,27 +4,28 @@ At aspaara a squad of superheroes works on giving superpowers to planning teams.
 Through our product dashboard, we give insights into data – a true super-vision
 superpower. Join forces with us and build a dashboard of the future!
 
-[![Built with Cookiecutter FastApi](https://img.shields.io/badge/built%20with-Cookiecutter%20Django-ff69b4.svg?logo=cookiecutter)](https://github.com/cookiecutter/cookiecutter-django/)
-[![Black code style](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/ambv/black)
-
 ## How to run
-It is advisable to run this project from a virtual environment.
-Create and activate a virtual environment. **Run all commands from the project root directory**
+***Run all commands from the root directory of the project***
+#### Create a virtual environment and activate it
+```shell
+python3 -m venv venv
+source venv/bin/activate
+```
 
 #### Install project dependencies
 ```bash
-    pip install -r requirements/local.txt
+pip install -r requirements/local.txt
 ```
 
 #### Create database tables and import provided data
 This is a destructive action and any previous data will be lost.
 ```bash
-    make init
+make init
 ```
 
 #### Start the project
 ```shell
-    cd app/ && python -m uvicorn main:app --reload
+make start
 ```
 
 ![aspaara superhero](aspaara_superhero.png)
