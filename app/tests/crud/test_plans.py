@@ -15,7 +15,7 @@ def test_get_item(db: Session) -> None:
     plan_data = PlanCreate(**factories.PlanFactory())
     plan = Plan.from_orm(crud.plan.create(db=db, obj_in=plan_data))
     plan_from_db = crud.plan.get(db=db, obj_id=plan.id)
-    assert plan.id == plan_from_db.id
+    assert plan.id == plan_from_db.id  # type: ignore
 
 
 def test_update_item(db: Session) -> None:

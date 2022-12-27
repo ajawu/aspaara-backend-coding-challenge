@@ -5,11 +5,12 @@ from .base import CRUDBase
 
 
 class CRUDPlan(CRUDBase[Plan, PlanCreate, PlanUpdate]):
-    def get_filter(self):
-        pass
-
-    def get_order_by(self):
-        pass
+    # def get_filter(self) -> List[Plan]:
+    #     pass
+    #
+    # def get_order_by(self) -> List[Plan]:
+    #     pass
+    pass
 
 
 plan = CRUDPlan(Plan)

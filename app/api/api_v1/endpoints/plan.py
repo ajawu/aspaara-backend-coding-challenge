@@ -1,4 +1,4 @@
-from typing import List
+from typing import Any, List
 
 from fastapi import APIRouter, Depends, HTTPException, Response, status
 from sqlalchemy.orm import Session
@@ -10,7 +10,9 @@ router = APIRouter()
 
 
 @router.post("/", response_model=schemas.Plan)
-def create_plan(plan_details: schemas.PlanCreate, db: Session = Depends(deps.get_db)):
+def create_plan(
+    plan_details: schemas.PlanCreate, db: Session = Depends(deps.get_db)
+) -> Any:
     plan = crud.plan.create(db=db, obj_in=plan_details)
     return plan
 
@@ -20,13 +22,13 @@ def get_plans(
     db: Session = Depends(deps.get_db),
     skip: int = 0,
     limit: int = 100,
-):
+) -> Any:
     plans = crud.plan.get_multi(db, skip=skip, limit=limit)
     return plans
 
 
 @router.get("/{obj_id}", response_model=schemas.Plan)
-def get_plan_by_id(obj_id: int, db: Session = Depends(deps.get_db)):
+def get_plan_by_id(obj_id: int, db: Session = Depends(deps.get_db)) -> Any:
     plan = crud.plan.get(db=db, obj_id=obj_id)
     if plan:
         return plan
@@ -40,7 +42,7 @@ def get_plan_by_id(obj_id: int, db: Session = Depends(deps.get_db)):
 @router.patch("/{obj_id}", response_model=schemas.Plan)
 def update_plan(
     obj_id: int, plan_details: schemas.PlanUpdate, db: Session = Depends(deps.get_db)
-):
+) -> Any:
     plan = crud.plan.get(db=db, obj_id=obj_id)
     if plan:
         return crud.plan.update(db=db, db_obj=plan, obj_in=plan_details)
@@ -52,7 +54,7 @@ def update_plan(
 
 
 @router.delete("/{obj_id}")
-def delete_plan(obj_id: int, db: Session = Depends(deps.get_db)):
+def delete_plan(obj_id: int, db: Session = Depends(deps.get_db)) -> Any:
     plan = crud.plan.remove(db=db, obj_id=obj_id)
     if plan:
         return Response(status_code=status.HTTP_204_NO_CONTENT)
