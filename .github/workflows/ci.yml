@@ -31,7 +31,7 @@ jobs:
 
       - name: Type checking with Mypy
         run: |
-          mypy app/*
+          mypy .
 
       - name: Test with pytest
         run: |

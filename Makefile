@@ -6,7 +6,7 @@ test:
 				pytest app/tests
 
 mypy:
-				mypy app/.
+				mypy .
 
 remove-db:
 				rm data.db
