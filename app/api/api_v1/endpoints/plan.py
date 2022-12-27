@@ -9,7 +9,7 @@ from app.api import deps
 router = APIRouter()
 
 
-@router.post("/", response_model=schemas.Plan)
+@router.post("/", response_model=schemas.Plan, status_code=status.HTTP_201_CREATED)
 def create_plan(
     plan_details: schemas.PlanCreate, db: Session = Depends(deps.get_db)
 ) -> Any:
