@@ -22,6 +22,7 @@ def get_plans(
     db: Session = Depends(deps.get_db),
     page: int = 0,
     limit: int = 100,
+    search: str = "",
     order_columns: Union[List[str], None] = Query(default=None),
 ) -> Any:
     if order_columns:
@@ -36,7 +37,7 @@ def get_plans(
         order_columns = ["id"]
 
     plans = crud.plan.get_multi_with_sort(
-        db, skip=page, limit=limit, order_by=order_columns
+        db, skip=page, limit=limit, order_by=order_columns, search_term=search
     )
     return plans
 
