@@ -44,3 +44,16 @@ def test_delete_item(client: TestClient, db: Session) -> None:
 
     response = client.delete(f"{settings.API_V1_STR}/plan/-938038")
     assert response.status_code == 404
+
+
+def test_search(client: TestClient, db: Session) -> None:
+    plan_obj = crud.plan.create(db=db, obj_in=PlanCreate(**factories.PlanFactory()))
+    crud.plan.create(db=db, obj_in=PlanCreate(**factories.PlanFactory()))
+    crud.plan.create(db=db, obj_in=PlanCreate(**factories.PlanFactory()))
+    crud.plan.create(db=db, obj_in=PlanCreate(**factories.PlanFactory()))
+    response = client.get(f"{settings.API_V1_STR}/plan/?search={plan_obj.original_id}")
+
+    assert response.status_code == 200
+    content = response.json()
+    assert len(content) == 1
+    assert content[0]["originalId"] == plan_obj.original_id
